@@ -1,0 +1,26 @@
+{
+  "name": "top-of-the-heap-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mt-Trashmore-Mountaineers/top-of-the-heap-backend.git"
+  },
+  "author": "Mt-Trashmore-Mountaineers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mt-Trashmore-Mountaineers/top-of-the-heap-backend/issues"
+  },
+  "homepage": "https://github.com/Mt-Trashmore-Mountaineers/top-of-the-heap-backend#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.2"
+  }
+}
