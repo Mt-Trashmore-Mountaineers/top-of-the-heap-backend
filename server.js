@@ -16,6 +16,7 @@ const Quiz = require('./models/quiz.js')
 
 //MONGOOSE CONNECTION
 const mongoose = require('mongoose');
+const User = require('./models/user.js');
 mongoose.connect(process.env.MONGO_URL);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -29,6 +30,7 @@ app.get('/',(req, res) => {
   res.status(200).send("Welcome, Mongoose is connected.");
 })
 
+app.post('/user', postUser);
 
 app.post('/new',postQuiz);
 
@@ -38,6 +40,15 @@ app.get('/quiz', getQuizzes);
 
 app.get('/quiz/id', getQuizById);
 
+
+async function postUser(req,res,next){
+  try {
+    let newUser = await User.create(req.body);
+    newUser.email
+  } catch (error) {
+    next(error);
+  }
+}
 
 async function postQuiz(req,res,next){
   console.log('!! quiz req.body', req.body);
