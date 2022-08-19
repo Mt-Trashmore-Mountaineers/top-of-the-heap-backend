@@ -118,12 +118,16 @@ async function updateUser(req, res, next) {
       await user.save();
       res.status(200).send(user);
     }
+  } catch (error) {
+    next(error);
+  }
+}
 
-async function deleteQuiz(req,res,next){
+async function deleteQuiz(req, res, next) {
   let id = req.params.id;
   try {
     await Quiz.findByIdAndDelete(id);
-      res.status(200).send('deleted');
+    res.status(200).send('deleted');
   } catch (error) {
     next(error);
   }
