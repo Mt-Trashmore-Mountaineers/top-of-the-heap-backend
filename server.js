@@ -26,13 +26,13 @@ db.once('open', function () {
 
 
 //ROUTES 
-app.get('/',(req, res) => {
+app.get('/', (req, res) => {
   res.status(200).send("Welcome, Mongoose is connected.");
 })
 
 app.post('/user', postUser);
 
-app.post('/new',postQuiz);
+app.post('/new', postQuiz);
 
 app.get('/quiz/email', getQuizSet);
 
@@ -40,53 +40,67 @@ app.get('/quiz', getQuizzes);
 
 app.get('/quiz/id', getQuizById);
 
+app.put('/user', updateUser);
 
-async function postUser(req,res,next){
+
+async function postUser(req, res, next) {
   try {
     let newUser = await User.create(req.body);
-    newUser.email
+    res.status(200).send(newUser);
   } catch (error) {
     next(error);
   }
 }
 
-async function postQuiz(req,res,next){
+async function postQuiz(req, res, next) {
   console.log('!! quiz req.body', req.body);
   try {
     let createdQuiz = await Quiz.create(req.body);
-      res.status(200).send(createdQuiz);
+    res.status(200).send(createdQuiz);
   } catch (error) {
     next(error)
   }
 }
 
-async function getQuizById(req,res,next){
+async function getQuizById(req, res, next) {
   let id = req.query.id;
-  
+
   try {
     let quiz = await Quiz.findById(id);
-      res.status(200).send(quiz);
+    res.status(200).send(quiz);
   } catch (error) {
     next(error);
   }
 }
 
-async function getQuizSet(req,res,next){
+async function getQuizSet(req, res, next) {
   let reqEmail = req.query.email;
   try {
-    let results = await Quiz.find({email: reqEmail});
+    let results = await Quiz.find({ email: reqEmail });
     res.status(200).send(results);
   } catch (error) {
     next(error)
   }
 }
 
-async function getQuizzes(req,res,next){
+async function getQuizzes(req, res, next) {
   try {
     let results = await Quiz.find({});
     res.status(200).send(results);
   } catch (error) {
     next(error)
+  }
+}
+
+async function updateUser(req, res, next) {
+  let reqEmail = req.query.email;
+  console.log(reqEmail);
+  try {
+    let results = await User.find({ email: reqEmail });
+    res.status(200).send(results);
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 }
 
