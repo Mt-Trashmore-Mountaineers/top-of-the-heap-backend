@@ -30,7 +30,11 @@ app.get('/', (req, res) => {
   res.status(200).send("Welcome, Mongoose is connected.");
 })
 
+app.get('/user', getUser);
+
 app.post('/user', postUser);
+
+app.put('/user', updateUser);
 
 app.post('/new', postQuiz);
 
@@ -39,9 +43,6 @@ app.get('/quiz/email', getQuizSet);
 app.get('/quiz', getQuizzes);
 
 app.get('/quiz/id', getQuizById);
-
-app.put('/user', updateUser);
-
 
 async function postUser(req, res, next) {
   try {
@@ -92,14 +93,30 @@ async function getQuizzes(req, res, next) {
   }
 }
 
+async function getUser(req, res, next) {
+  let reqEmail = req.query.email;
+  try {
+    let results = await User.find({ email: reqEmail });
+    res.status(200).send(results);
+  } catch (error) {
+    next(error)
+  }
+}
+
 async function updateUser(req, res, next) {
   let reqEmail = req.query.email;
   console.log(reqEmail);
   try {
     let results = await User.find({ email: reqEmail });
-    res.status(200).send(results);
+    if (results.length === 0) {
+      postUser(req, res, next);
+    } else {
+      let user = await User.findById(results[0]._id);
+      user.totalScore += req.query.score;
+      await user.save();
+      res.status(200).send(user);
+    }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 }
