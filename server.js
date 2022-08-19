@@ -53,6 +53,8 @@ async function postUser(req, res, next) {
   }
 }
 
+app.delete('/quiz/:id', deleteQuiz)
+
 async function postQuiz(req, res, next) {
   console.log('!! quiz req.body', req.body);
   try {
@@ -116,6 +118,12 @@ async function updateUser(req, res, next) {
       await user.save();
       res.status(200).send(user);
     }
+
+async function deleteQuiz(req,res,next){
+  let id = req.params.id;
+  try {
+    await Quiz.findByIdAndDelete(id);
+      res.status(200).send('deleted');
   } catch (error) {
     next(error);
   }
